@@ -763,7 +763,7 @@ sod21Pile = cbind(sod21Pile, sod21P1)
 colnames(sod21P1) = c('Q18')
 
 #The Pigweb scale puts strong agreement as 1 and strong disagreement as 5, this needs to be reversed for the question.
-pigw21Q18$Q18 = reverseCode(pigw21Q18$Q18)
+#pigw21Q18$Q18 = reverseCode(pigw21Q18$Q18)
 
 Q18_data = format_question_likert(sod21P1$Q18,
                                  pigw21Q18$Q18,
@@ -805,8 +805,8 @@ sod21Q19 = as.data.frame(dplyr::select(sod21,63))
 sod21Pile = cbind(sod21Pile, sod21Q19)
 colnames(sod21Q19) = c('Q19')
 
-#The Pigweb scale puts strong agreement as 1 and strong disagreement as 5, this needs to be reversed for the question.
-pigw21Q19$Q19 = reverseCode(pigw21Q19$Q19)
+#The Pigweb scale puts strong agreement as 1 and strong disagreement as 5, this needs to be reversed for the question. This is not necessary here!
+#pigw21Q19$Q19 = reverseCode(pigw21Q19$Q19)
 
 
 Q19_data = format_question_likert(sod21Q19$Q19,
@@ -1190,7 +1190,7 @@ plot_single_choice(Q31_data, #Plotting the responses
                    "Response")
 ```
 # Question 26
-```{r}
+```{r question_26, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 26"}
 
 #Creating data sets for Q26/Isolating the responses from Q26
 pigw21Q26 = as.data.frame(dplyr::select(pigw21, 97))
@@ -1265,9 +1265,6 @@ sod21Q34 = as.data.frame(dplyr::select(sod21,129))
 sod21Pile = cbind(sod21Pile, sod21Q34)
 colnames(sod21Q34) = c('Q34')
 
-#The Pigweb scale puts strong agreement as 1 and strong disagreement as 5, this needs to be reversed for the question.
-pigw21Q34$Q34 = reverseCode(pigw21Q34$Q34)
-
 
 Q34_data = format_question_likert(sod21Q34$Q34,
                                  pigw21Q34$Q34,
@@ -1281,6 +1278,10 @@ plot_likert(Q34_data,
 
 #This section test for if there is statistically significant difference in the respondent groups
 #with the null hypothesis that the two populations are the same. 
+
+ks.test(Q34_data$response[Q34_data$survey == "SoD"],
+        Q34_data$response[Q34_data$survey == "PigWeb"],
+        ifresult = FALSE) #Kolmogorov-Smirnov test for Q34
 
 ```
 
@@ -1317,48 +1318,6 @@ plot_multiple_choice(QP3_data,
                      "Response")
 ```
 
-
-```{r question_16, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 16"}
-#Creating data sets for Q16 (In otherwords: Isolating the responses of Q16 in the two surveys and adding this to a compiled data set, one for each survey)
-sod21Q16 = as.data.frame(dplyr::select(sod21,60))
-sod21Pile = cbind(sod21Pile, sod21Q16)
-colnames(sod21Q16) = c('Q16')
-
-pigw21Q16 = as.data.frame(dplyr::select(pigw21, 42))
-pigw21Pile = cbind(pigw21Pile, pigw21Q16)
-
-
-#Setting columnnames and storing the question for Q16
-colnames(sod21Q16) = c('Q16')
-colnames(pigw21Q16) = c('Q16')
-Q16 = 'Replicating studies (use of your data as a reference to determine whether they can be repeated under similar conditions)'
-
-#Setting the answer options to Q16.
-Q16_levels = c("Extremely comfortable", "Somewhat confortable",
-              "Neutral", "Somewhat uncomfortable",
-              "Extremely uncomfortable", "I don't know")
-
-#The Pigweb scale is correctly formatted for this question (Q16), thus no need to reverse the question.
-#pigw21Q16$Q16 = reverseCode(pigw21Q16$Q16) 
-
-Q16_data = format_question_likert(sod21Q16$Q16, #Making the answers to Q16 in the two questionnaires comparable, merging them to one data frame 
-                                 pigw21Q16$Q16,
-                                 Q16_levels)
-
-plot_likert(Q16_data,  #Plotting the Level of agreement between the two surveys
-            Q16_levels,
-            Q16,
-            "Level of agreement")
-
-
-
-#This section test for if there is statistically significant difference in the respondent groups¨
-#with the null hyptohesis that the two populations are the same. 
-
-SvPQ16 = ks.test(Q16_data$response[Q16_data$survey == "SoD"],
-        Q16_data$response[Q16_data$survey == "PigWeb"],
-        ifresult = FALSE) #Kolmogorov-Smirnov test for Q16
-```
 
 
 
@@ -1539,10 +1498,6 @@ plot_single_choice(Qleonie2_data,
                    Qleonie2 ,
                    "Answers")
 ```
-=======
-ks.test(Q34_data$response[Q34_data$survey == "SoD"],
-        Q34_data$response[Q34_data$survey == "PigWeb"],
-        ifresult = FALSE) #Kolmogorov-Smirnov test for Q34
 
 # Question 32
 
